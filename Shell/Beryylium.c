@@ -1,6 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 
 int cols, rows;
 // from here to the las endif, it is for getting the terminal size.
@@ -8,6 +8,7 @@ int cols, rows;
 #include <windows.h>
 #else
 #include <sys/ioctl.h>
+#include <unistd.h>
 #endif
 
 void get_terminal_size(int *rows, int *cols) {
@@ -30,7 +31,7 @@ void get_terminal_size(int *rows, int *cols) {
 char command[4196];
 
 // string to hold the execve command.
-char comexecve[4196]
+char comexecve[4196];
 
 int main()
 {
@@ -81,16 +82,17 @@ int main()
             }
             printf("\n");
         }else if(command[0] == 'h' && command[1] == 'e' && command[2] == 'l' && command[3] == 'p'){ // for help screen.
-            printf("\033[1;32mCOMMANDS:\n     help : Shows this message.\n     clr : clears the screen.\n     XE : exits the shell.\n")
+            printf("\033[1;32mCOMMANDS:\n     help : Shows this message.\n     clr : clears the screen.\n     XE : exits the shell.\n     execve : runs a system command by stdlib.h's 'system()' command.\n");
         }else if(command[0] == 'e' && command[1] == 'x' && command[2] == 'e' && command[3] == 'c' && command[4] == 'v' && command[5] == 'e' && command[6] == ' '){ //to run a system command by 'execve()'
-            for(i = 7; i < 4195; i++){
+            for(int i = 7; i < 4185; i++){
                 comexecve[i - 7] = command[i];
-                execve(comexecve);
             }
+                system(comexecve);
         }else{ // to show using unknown commands.
             printf("\033[1;31m'%s' is not recognized as a command.\n", command);
         }
     }
     return 0;
 }
+
 
